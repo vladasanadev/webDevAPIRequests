@@ -418,16 +418,32 @@ $(document).ready(function(){
         $('.error-checked').fadeOut('error-checked-fade');
       }, 4000)
     }
-    
-    
+    console.log("clicked")
+    window.open('./thanks.html')
+
   });
 // })
 
 
 document.querySelector('#code').addEventListener('keydown', valid);
 
+document.querySelector('#code').addEventListener('keypress', vadidd);
+
 function valid(event) {
+  console.log(event.target.value, event.target, event, $("#code").val())
   if (event.key === 'Backspace') {
+    if($select.val().length === event.target.value.length)
     event.preventDefault();
   }
 }
+
+function vadidd(event) {
+  console.log(event.target.value, event.target, event, $("#code").val())
+  // console.log(event.target.value,event.target.value.substring(0, $select.val().length), $select.val())
+  // event.preventDefault();
+  if(event.target.value.substring(0, $select.val().length) !== $select.val()) {
+    console.log(event.target.value.substring(0, $select.val().length), $select.val())
+    event.preventDefault();
+  }
+}
+
