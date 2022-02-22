@@ -323,7 +323,7 @@ $(document).ready(function(){
     var myName = $(".first-name").val().trim();
     var mySurame = $(".second-name").val().trim();
     var myPhone = $(".phone-number").val().trim();
-
+    var isValid = true
   
     if ($(".option:nth-child(1)").hasClass('selected')){
       $('.fill-country').fadeIn();
@@ -339,6 +339,7 @@ $(document).ready(function(){
         $('#fill-name').fadeOut();
       }, 4000)
     } else if (myName.length < 2) {
+      isValid = false
       $('#error-firstname').fadeIn();
       $('#fill-name').fadeOut();
       setTimeout(() => {
@@ -353,6 +354,7 @@ $(document).ready(function(){
         $('#fill-surname').fadeOut();
       }, 4000)
     } else if (mySurame.length < 2) {
+      isValid = false
       $('#error-secondname').fadeIn();
       $('#fill-surname').fadeOut();
       setTimeout(() => {
@@ -368,6 +370,7 @@ $(document).ready(function(){
         $('#fill-email').fadeOut();
       }, 4000)
     } else if (myEmail.search(pattern)) {
+      isValid = false
       $('#fill-email').fadeOut();
       $('#error-email').fadeIn();
       setTimeout(() => {
@@ -377,18 +380,21 @@ $(document).ready(function(){
 
     if (myPhone.length < 5) {
       $('#fill-phone').fadeIn();
+      isValid = false
       setTimeout(() => {
         $('#fill-phone').fadeOut();
       }, 4000)
     } 
 
     if (myPass == "") {
+      isValid = false
       $('#error-pas-empty').fadeIn();
       $('#error-pas-incorrect').fadeOut();
       setTimeout(() => {
         $('#error-pas-empty').fadeOut();
       }, 4000)
     } else if (myPass.search(passPattern)) {
+      isValid = false
       $('#error-pas-empty').fadeOut();
       $('#error-pas-incorrect').fadeIn();
       setTimeout(() => {
@@ -397,12 +403,14 @@ $(document).ready(function(){
     }
 
     if (confirmPass == "") {
+      isValid = false
       $('#fill-confirmation').fadeIn();
       $('#error-pas-incorrect').fadeOut();
       setTimeout(() => {
         $('#fill-confirmation').fadeOut();
       }, 4000)
     } else if (confirmPass != myPass) {
+      isValid = false
       $('#fill-confirmation').fadeOut();
       $('#unmatch-pass').fadeIn();
       setTimeout(() => {
@@ -413,13 +421,57 @@ $(document).ready(function(){
     if ($('.custom-checkbox').is(":checked")) {
       $('.error-checked').fadeOut('error-checked-fade');
     } else {
+      isValid = false
       $('.error-checked').fadeIn('error-checked-fade');
       setTimeout(() => {
         $('.error-checked').fadeOut('error-checked-fade');
       }, 4000)
     }
-    console.log("clicked")
-    window.open('./thanks.html')
+
+    if (isValid) {
+      fetch("https://api.topmediagroups.com/api/v1/users", {
+        method: "POST",
+        mode: 'cors',
+        headers:{'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': "*",
+          'Access-Control-Allow-Headers': "*",
+        },
+
+        body: JSON.stringify({
+              "name": myName,
+              "lname":mySurame,
+              "email": myEmail,
+              "phone":myPhone,
+              "password":myPass,
+              "country":$select.val(),
+            }
+        )}
+      )
+          .then(res => res.json())
+          .then(data=> {
+            if (data.status === "success"){
+              localStorage.setItem("name",myName)
+              fetch("https://api.topmediagroups.com/login",{
+                method:"POST",
+                headers:{'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                  "email": myEmail,
+                  "password":myPass,
+                })
+              })
+                  .then(res => res.json())
+                  .then(data=> {
+                    if (data.status === "success"){
+                      localStorage.setItem("jwt",data.message.Authorization)
+                      window.open('./thanks.html')
+                    }
+                  })
+            }
+          })
+    }
+
+
+
 
   });
 // })
