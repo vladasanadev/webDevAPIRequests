@@ -531,6 +531,9 @@ input:hover {
     font-size: 42px;
     line-height: 50px;
   }
+  .thanks-bg-img {
+    background-position: 13% center;
+  }
 
 
 

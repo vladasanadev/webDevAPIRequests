@@ -2,14 +2,13 @@
 
 
 new universalParallax().init({
-    speed: 4
+  speed: 4
 });
-
 
 
 var countries = [
   "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burma", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo, Democratic Republic", "Congo, Republic of the", "Costa Rica", "Cote d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Greenland", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea, North", "Korea, South", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Mongolia", "Morocco", "Monaco", "Mozambique", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Norway", "Oman", "Pakistan", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Samoa", "San Marino", " Sao Tome", "Saudi Arabia", "Senegal", "Serbia and Montenegro", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "Spain", "Sri Lanka", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
-]; 
+];
 
 var codes = [
   93,
@@ -268,38 +267,36 @@ var codes = [
 
 var $select = $("#selectCountry");
 countries.forEach(function (country, code) {
-  
-  $("<option>", { text: country, val: codes[code] }).appendTo($select);
-}); 
+
+  $("<option>", {text: country, val: codes[code]}).appendTo($select);
+});
 /* codes.forEach(function (code){
    $("<option>", { text:code, val: code }).appendTo($select);
 }) */
 $select
-  .on("change", function () {
-    $select.toggleClass("is-value-selected", "" !== $select.val());
-  })
-  .trigger("change");
-
-
+    .on("change", function () {
+      $select.toggleClass("is-value-selected", "" !== $select.val());
+    })
+    .trigger("change");
 
 
 /*scroll-animation*/
 
-  ScrollOut({
-    targets: '.scroll-animate',
-    once: true,
-    onShown(el) {
-        el.classList.add("new-animate");
-    }
+ScrollOut({
+  targets: '.scroll-animate',
+  once: true,
+  onShown(el) {
+    el.classList.add("new-animate");
+  }
+});
+
+
+$(function () {
+  $('#selectCountry').on('change', function () {
+    $('#code').addClass('active-phone')
+    $('#code').val(this.value);// changing the code textbox value by current country value
   });
-
-
-  $(function(){
-    $('#selectCountry').on('change',function(){
-        $('#code').addClass('active-phone')
-        $('#code').val(this.value);// changing the code textbox value by current country value
-    });
- });
+});
 
 
 /*validation*/
@@ -307,195 +304,189 @@ $select
 
 /*custom select*/
 
-$(document).ready(function(){
+$(document).ready(function () {
   $('select').niceSelect();
 });
 
 // document.querySelector('form').addEventListener('submit', e => {
-
-  $(".sign-up-button").on('click', function() {
-    // e.preventDefault();
-    var pattern = /.+@.+\..+/i;
-    var myEmail = $(".email-adress").val().trim();
-    var passPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{7,}$/;
-    var myPass = $(".password").val().trim();
-    var confirmPass = $(".confirm-password").val().trim();
-    var myName = $(".first-name").val().trim();
-    var mySurame = $(".second-name").val().trim();
-    var myPhone = $(".phone-number").val().trim();
-    var isValid = true
-  
-    if ($(".option:nth-child(1)").hasClass('selected')){
-      $('.fill-country').fadeIn();
-      setTimeout(() => {
-        $('.fill-country').fadeOut();
-      }, 4000)
+$(document).ready(function () {
+  $("input[type='tel']").on("input", function (event) {
+    if ($(this).val().substring(0, $select.val().length) !== $select.val()) {
+      $(this).val($select.val() + $(this).val().substring($select.val().length+1))
     }
-
-    if (myName == "") {
-      $('#fill-name').fadeIn();
-      $('#error-firstname').fadeOut();
-      setTimeout(() => {
-        $('#fill-name').fadeOut();
-      }, 4000)
-    } else if (myName.length < 2) {
-      isValid = false
-      $('#error-firstname').fadeIn();
-      $('#fill-name').fadeOut();
-      setTimeout(() => {
-        $('#error-firstname').fadeOut();
-      }, 4000)
-    }
-
-    if (mySurame == "") {
-      $('#fill-surname').fadeIn();
-      $('#error-secondname').fadeOut();
-      setTimeout(() => {
-        $('#fill-surname').fadeOut();
-      }, 4000)
-    } else if (mySurame.length < 2) {
-      isValid = false
-      $('#error-secondname').fadeIn();
-      $('#fill-surname').fadeOut();
-      setTimeout(() => {
-        $('#error-secondname').fadeOut();
-      }, 4000)
-    }
-
-
-    if (myEmail == "") {
-      $('#fill-email').fadeIn();
-      $('#error-email').fadeOut();
-      setTimeout(() => {
-        $('#fill-email').fadeOut();
-      }, 4000)
-    } else if (myEmail.search(pattern)) {
-      isValid = false
-      $('#fill-email').fadeOut();
-      $('#error-email').fadeIn();
-      setTimeout(() => {
-        $('#error-email').fadeOut();
-      }, 4000)
-    }
-
-    if (myPhone.length < 5) {
-      $('#fill-phone').fadeIn();
-      isValid = false
-      setTimeout(() => {
-        $('#fill-phone').fadeOut();
-      }, 4000)
-    } 
-
-    if (myPass == "") {
-      isValid = false
-      $('#error-pas-empty').fadeIn();
-      $('#error-pas-incorrect').fadeOut();
-      setTimeout(() => {
-        $('#error-pas-empty').fadeOut();
-      }, 4000)
-    } else if (myPass.search(passPattern)) {
-      isValid = false
-      $('#error-pas-empty').fadeOut();
-      $('#error-pas-incorrect').fadeIn();
-      setTimeout(() => {
-        $('#error-pas-incorrect').fadeOut();
-      }, 4000)
-    }
-
-    if (confirmPass == "") {
-      isValid = false
-      $('#fill-confirmation').fadeIn();
-      $('#error-pas-incorrect').fadeOut();
-      setTimeout(() => {
-        $('#fill-confirmation').fadeOut();
-      }, 4000)
-    } else if (confirmPass != myPass) {
-      isValid = false
-      $('#fill-confirmation').fadeOut();
-      $('#unmatch-pass').fadeIn();
-      setTimeout(() => {
-        $('#unmatch-pass').fadeOut();
-      }, 4000)
-    }
-
-    if ($('.custom-checkbox').is(":checked")) {
-      $('.error-checked').fadeOut('error-checked-fade');
-    } else {
-      isValid = false
-      $('.error-checked').fadeIn('error-checked-fade');
-      setTimeout(() => {
-        $('.error-checked').fadeOut('error-checked-fade');
-      }, 4000)
-    }
-
-    if (isValid) {
-      fetch("https://api.topmediagroups.com/api/v1/users", {
-        method: "POST",
-        mode: 'cors',
-        headers:{'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': "*",
-          'Access-Control-Allow-Headers': "*",
-        },
-
-        body: JSON.stringify({
-              "name": myName,
-              "lname":mySurame,
-              "email": myEmail,
-              "phone":myPhone,
-              "password":myPass,
-              "country":$select.val(),
-            }
-        )}
-      )
-          .then(res => res.json())
-          .then(data=> {
-            if (data.status === "success"){
-              localStorage.setItem("name",myName)
-              fetch("https://api.topmediagroups.com/login",{
-                method:"POST",
-                headers:{'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                  "email": myEmail,
-                  "password":myPass,
-                })
-              })
-                  .then(res => res.json())
-                  .then(data=> {
-                    if (data.status === "success"){
-                      localStorage.setItem("jwt",data.message.Authorization)
-                      window.open('./thanks.html')
-                    }
-                  })
-            }
-          })
-    }
-
-
-
-
   });
-// })
+});
+
+
+$(".sign-up-button").on('click', function () {
+  // e.preventDefault();
+  var pattern = /.+@.+\..+/i;
+  var myEmail = $(".email-adress").val().trim();
+  var passPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{7,}$/;
+  var myPass = $(".password").val().trim();
+  var confirmPass = $(".confirm-password").val().trim();
+  var myName = $(".first-name").val().trim();
+  var mySurame = $(".second-name").val().trim();
+  var myPhone = $(".phone-number").val().trim();
+  var isValid = true
+
+  if ($(".option:nth-child(1)").hasClass('selected')) {
+    $('.fill-country').fadeIn();
+    setTimeout(() => {
+      $('.fill-country').fadeOut();
+    }, 4000)
+  }
+
+  if (myName == "") {
+    $('#fill-name').fadeIn();
+    $('#error-firstname').fadeOut();
+    setTimeout(() => {
+      $('#fill-name').fadeOut();
+    }, 4000)
+  } else if (myName.length < 2) {
+    isValid = false
+    $('#error-firstname').fadeIn();
+    $('#fill-name').fadeOut();
+    setTimeout(() => {
+      $('#error-firstname').fadeOut();
+    }, 4000)
+  }
+
+  if (mySurame == "") {
+    $('#fill-surname').fadeIn();
+    $('#error-secondname').fadeOut();
+    setTimeout(() => {
+      $('#fill-surname').fadeOut();
+    }, 4000)
+  } else if (mySurame.length < 2) {
+    isValid = false
+    $('#error-secondname').fadeIn();
+    $('#fill-surname').fadeOut();
+    setTimeout(() => {
+      $('#error-secondname').fadeOut();
+    }, 4000)
+  }
+
+
+  if (myEmail == "") {
+    $('#fill-email').fadeIn();
+    $('#error-email').fadeOut();
+    setTimeout(() => {
+      $('#fill-email').fadeOut();
+    }, 4000)
+  } else if (myEmail.search(pattern)) {
+    isValid = false
+    $('#fill-email').fadeOut();
+    $('#error-email').fadeIn();
+    setTimeout(() => {
+      $('#error-email').fadeOut();
+    }, 4000)
+  }
+
+  if (myPhone.length < 5) {
+    $('#fill-phone').fadeIn();
+    isValid = false
+    setTimeout(() => {
+      $('#fill-phone').fadeOut();
+    }, 4000)
+  }
+
+  if (myPass == "") {
+    isValid = false
+    $('#error-pas-empty').fadeIn();
+    $('#error-pas-incorrect').fadeOut();
+    setTimeout(() => {
+      $('#error-pas-empty').fadeOut();
+    }, 4000)
+  } else if (myPass.search(passPattern)) {
+    isValid = false
+    $('#error-pas-empty').fadeOut();
+    $('#error-pas-incorrect').fadeIn();
+    setTimeout(() => {
+      $('#error-pas-incorrect').fadeOut();
+    }, 4000)
+  }
+
+  if (confirmPass == "") {
+    isValid = false
+    $('#fill-confirmation').fadeIn();
+    $('#error-pas-incorrect').fadeOut();
+    setTimeout(() => {
+      $('#fill-confirmation').fadeOut();
+    }, 4000)
+  } else if (confirmPass != myPass) {
+    isValid = false
+    $('#fill-confirmation').fadeOut();
+    $('#unmatch-pass').fadeIn();
+    setTimeout(() => {
+      $('#unmatch-pass').fadeOut();
+    }, 4000)
+  }
+
+  if ($('.custom-checkbox').is(":checked")) {
+    $('.error-checked').fadeOut('error-checked-fade');
+  } else {
+    isValid = false
+    $('.error-checked').fadeIn('error-checked-fade');
+    setTimeout(() => {
+      $('.error-checked').fadeOut('error-checked-fade');
+    }, 4000)
+  }
+
+  if (isValid) {
+    fetch("https://api.topmediagroups.com/api/v1/users", {
+          method: "POST",
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': "*",
+            'Access-Control-Allow-Headers': "*",
+          },
+
+          body: JSON.stringify({
+                "name": myName,
+                "lname": mySurame,
+                "email": myEmail,
+                "phone": myPhone,
+                "password": myPass,
+                "country": $select.val(),
+              }
+          )
+        }
+    )
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "success") {
+            localStorage.setItem("name", myName)
+            fetch("https://api.topmediagroups.com/login", {
+              method: "POST",
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({
+                "email": myEmail,
+                "password": myPass,
+              })
+            })
+                .then(res => res.json())
+                .then(data => {
+                  if (data.status === "success") {
+                    localStorage.setItem("jwt", data.message.Authorization)
+                    window.open('./thanks.html')
+                  }
+                })
+          }
+        })
+  }
+
+
+});
+
 
 
 document.querySelector('#code').addEventListener('keydown', valid);
 
-document.querySelector('#code').addEventListener('keypress', vadidd);
-
 function valid(event) {
-  console.log(event.target.value, event.target, event, $("#code").val())
   if (event.key === 'Backspace') {
-    if($select.val().length === event.target.value.length)
-    event.preventDefault();
+    if ($select.val().length === event.target.value.length)
+      event.preventDefault();
   }
 }
-
-function vadidd(event) {
-  console.log(event.target.value, event.target, event, $("#code").val())
-  // console.log(event.target.value,event.target.value.substring(0, $select.val().length), $select.val())
-  // event.preventDefault();
-  if(event.target.value.substring(0, $select.val().length) !== $select.val()) {
-    console.log(event.target.value.substring(0, $select.val().length), $select.val())
-    event.preventDefault();
-  }
-}
-
